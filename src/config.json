@@ -1,0 +1,41 @@
+{
+  "tagline": {
+    "value": "Philippe, \\n prêt à rejoindre Redbox ?",
+    "start": "13",
+    "end": "23",
+    "video": "reveal.mp4",
+    "fontsize": "100"
+  },
+  "client": {
+    "image": "./assets/client.png",
+    "start": "11",
+    "end": "13",
+    "video": "outro.mp4",
+    "size": "1"
+  },
+  "videos": {
+    "loop_out": "./video/loop_out.mp4",
+    "loop_in": "./video/reveal.mp4",
+    "queue": [
+      "./video/reveal.mp4",
+      "./video/intro.mp4",
+      "./video/casestudy.mp4",
+      "./video/outro.mp4"
+    ]
+  },
+  "applications": {
+    "madmapper": "redbox_mapping_2023.mad",
+    "touchdesigner": "redbox_mapping_td.toe",
+    "setup": "/src/setup.py"
+  },
+  "dimension": {
+    "width": "2500",
+    "height": "1084"
+  },
+  "commands": {
+    "R": "Revient à la loop d'introduction et mettre a jour les assets (reset)",
+    "Enter": "Lance la présentation (introduction, case study...)",
+    "M": "Mute l'installation",
+    "Q": "Quitte l'installation"
+  }
+}
