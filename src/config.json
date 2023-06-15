@@ -7,20 +7,22 @@
     "fontsize": "100"
   },
   "client": {
-    "image": "./assets/client.png",
+    "image": "/assets/client.png",
     "start": "11",
     "end": "13",
     "video": "outro.mp4",
-    "size": "1"
+    "size": "1",
+    "width": "800",
+    "height": "800"
   },
   "videos": {
-    "loop_out": "./video/loop_out.mp4",
-    "loop_in": "./video/reveal.mp4",
+    "loop_out": "/video/loop_out.mp4",
+    "loop_in": "/video/reveal.mp4",
     "queue": [
-      "./video/reveal.mp4",
-      "./video/intro.mp4",
-      "./video/casestudy.mp4",
-      "./video/outro.mp4"
+      "/video/reveal.mp4",
+      "/video/intro.mp4",
+      "/video/casestudy.mp4",
+      "/video/outro.mp4"
     ]
   },
   "applications": {

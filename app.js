@@ -1,5 +1,5 @@
 //os
-const {exec,  spawn} =  require('child_process');
+const {exec} = require('child_process');
 const fs = require('fs');
 
 //server
@@ -10,9 +10,8 @@ const port = 8000;
 //path and URL
 const clientUrl = `http://localhost:${port}`;
 const configPath = __dirname + '/src/config.json';
-
+const config = require(configPath);
 let launched = false;
-//kill existing node app
 
 const formMap = {
   tagline:{
@@ -30,6 +29,9 @@ const formMap = {
   }
 }
 
+//picture modificatin
+const sharp = require('sharp');
+
 //---------------
 console.log('starting...')
 app.use(express.static(__dirname + '/public'));
@@ -38,8 +40,6 @@ app.listen(port);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-const morgan = require('morgan');
-app.use(morgan('dev'));
 
 const multer = require('multer');
 const storage = multer.diskStorage({
@@ -47,11 +47,13 @@ const storage = multer.diskStorage({
       cb(null, __dirname + '/src/assets/' );
     },
     filename: function (req, file, cb) {
-      cb(null, file.fieldname+'.'+file.originalname.split('.')[1]);
+      const extension = file.originalname.split('.')[1];
+      const filepath = file.fieldname+'.'+extension;
+      cb(null, filepath);
     }
 });
-const upload = multer({storage: storage});
 
+const upload = multer({storage: storage});
 const configFile = require(configPath);
 
 console.log(`Server available on: ${clientUrl}`);
@@ -131,6 +133,18 @@ app.post('/update', upload.single('client'), function(req, res){
       } else {
         console.log('file received');
         res.send({file: true });
+        if(req.file?.fieldname === 'client'){
+          //resize picture
+          const {width, height} = config.client;
+          const { path } = req.file;
+          console.log(config.client);
+          sharp(path)
+            .resize(parseInt(width), parseInt(height), { fit: 'contain', background:{r:0, g:0, b:0, alpha:0} })
+            .toBuffer()
+            .then( bf => sharp(bf).toFile(path) );
+
+        }
+    
       }
     console.log('\n\n');
 
