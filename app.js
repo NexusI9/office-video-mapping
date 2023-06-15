@@ -72,6 +72,7 @@ switch(process.platform){
 
 app.post('/launch', function(req,res){
 
+  console.log('launch');
   if(launched){ return res.send({success: false}); }
   launched = true;
 
@@ -91,9 +92,9 @@ app.post('/launch', function(req,res){
 
 });
 
-app.post('/update', upload.single('client'), function(req, res){
+app.post('/', upload.single('client'), function(req, res){
 
-
+    console.log(req.body);
     console.log('\n\n\n_____________________________________');
     console.log('_______________UPDATES_______________');
     console.log('_____________________________________');
@@ -103,14 +104,14 @@ app.post('/update', upload.single('client'), function(req, res){
     console.log('\n\n');
     //handle tagline
     Object.keys(req.body).map( item => {
-
+      
       const value = req.body[item];
       const parentKey = item.split('_')[0];
       const childKey = formMap[parentKey][item];
 
       console.log({parentKey, childKey, value});
 
-      if(value && value.length > 0 &&  configFile[parentKey][childKey] ){
+      if(value && value.length && configFile[parentKey][childKey] ){
         console.log(`${ configFile[parentKey][childKey]  } => ${value}`);
         configFile[parentKey][childKey] = value;
       }

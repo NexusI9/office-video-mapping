@@ -72,6 +72,7 @@ nav #logo_section img {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .discrete {
@@ -89,8 +90,28 @@ input[type=text]:focus {
   outline: none;
 }
 
+.tips {
+  margin: 0;
+}
+
 label:has(input[type=file]), label:has(input[type=file]) input {
   cursor: pointer;
+}
+
+hr {
+  border-width: 1px;
+  border-color: #585A5C;
+}
+
+.card {
+  display: block;
+  padding: 18px;
+  border: solid 1px var(--white);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.card input {
+  border: none;
 }
 
 #updateform {
@@ -108,11 +129,20 @@ label:has(input[type=file]), label:has(input[type=file]) input {
 #updateform > h2 {
   margin: 2px 0;
 }
+#updateform .card {
+  margin-top: 17px;
+  margin-bottom: 5px;
+}
+#updateform input#tagline_value {
+  font-size: 1.1rem;
+  margin: 0;
+}
 #updateform #sent {
   margin: auto;
   opacity: 0;
   transform: opacity 0.2s ease-out;
   color: greenyellow;
+  grid-column: span 2;
 }
 #updateform fieldset {
   border: none;
@@ -128,14 +158,15 @@ label:has(input[type=file]), label:has(input[type=file]) input {
 #updateform fieldset input {
   margin-top: 10px;
 }
-#updateform fieldset:last-of-type {
+#updateform fieldset.submit-field {
   background: transparent;
   grid-column: span 2;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  flex-direction: column;
+  flex-direction: row;
+  justify-self: center;
 }
 #updateform .parameters {
   display: flex;

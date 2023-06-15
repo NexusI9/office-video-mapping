@@ -22,20 +22,17 @@
         <img alt="redboxlogo" src="./assets/logo.png"/>
         <h2>Mapping manager</h2>
       </div>
-      <form method="POST" action='/launch'>
-        <input type="submit" value="Lancer le mapping" class='cta primaire' />
-      </form>
     </nav>
 
     <div id="container">
-      <form method="POST" id='updateform' action='/update' enctype='multipart/form-data'>
+      <form method="POST" id='updateform' action="#" enctype='multipart/form-data'>
         <fieldset>
-          <h2>Phrase d'introduction</h2>
-          <label for="tagline_value">
+          <h2>1. Phrase d'introduction</h2>
+          <label for="tagline_value" class="card">
             <input type="text" id="tagline_value" name="tagline_value" placeholder="Prêt à faire décoler votre croissance?"/>
           </label>
-          <p><small class="discrete">Astuce: mettre \n pour passer à la ligne</small></p>
-
+          <p class="tips"><small class="discrete">Astuce: mettre \n pour passer à la ligne</small></p>
+          <hr>
           <h4>Paramètres</h4>
           <section class="parameters">
 
@@ -64,12 +61,12 @@
           </section>
         </fieldset>
         <fieldset>
-          <h2>Logo du client</h2>
-          <h5>Choisir un fichier à uploader</h5>
-          <label for="file">
+          <h2>2. Logo du client</h2>
+          <label for="file" class="card">
+            <h5>Choisir un fichier à uploader</h5>
             <input type="file" id="file" name="client" multiple />
           </label>
-          <p><small class="discrete">De préférence PNG au ratio 1:1</small></p>
+          <hr>
           <h4>Paramètres</h4>
           <section class="parameters">
 
@@ -97,12 +94,13 @@
 
           </section>
         </fieldset>
-        <fieldset>
-          <input type="submit" value="Enregistrer les modifications" name="submit" class="cta" />
-          <small id="sent">Merci, le contenu a été mis-à-jour!</small>
+        <fieldset class="submit-field">
+          <button type="submit" value="update" name="action" class="cta">Enregistrer les modifications</button>
+          <button type="submit" value="launch" name='action' class='cta primaire'/>Lancer le Mapping</button>
         </fieldset>
-      </form>
+          <small id="sent">Merci, le contenu a été mis-à-jour!</small>
 
+      </form>
     </div>
 
 </body>

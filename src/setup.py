@@ -1,3 +1,12 @@
+"""
+The goal of this program is to start the two main application for the video mapping (TouchDesigner & MadMapper)
+The program then set a thread, where every X seconds it forces the focus to TouchDesigner since it the program 
+that's handling the Keyboard listening
+
+MadMapper is only the passive Application receiving the videos from TouchDesigner through Spout/Syphon
+"""
+
+
 import os
 import sys
 import time
