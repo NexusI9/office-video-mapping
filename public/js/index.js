@@ -14,19 +14,23 @@ function __main__(){
                     });
                 });
             });
-        } )
+        } );
 
     document.querySelectorAll('form').forEach( item => {
         
         item.addEventListener("submit", function (e) {
             e.preventDefault(); // prevent page reload
             const url = item.getAttribute('action');
+            const form = new FormData(e.target);
+            const action = e.submitter.value;
+            form.append("action", action); //manually adding type of action from submit button
+
             fetch(url, {
                 method: 'POST',
-                body: new FormData(e.target),
+                body: form,
             }).then(function (response) {
                 if (response.ok) {
-                    if(url === '/update'){ document.getElementById('sent').style.opacity = 1; }
+                    if(action === 'update'){ document.getElementById('sent').style.opacity = 1; }
                     return response.json();
                 }
                 return Promise.reject(response);
