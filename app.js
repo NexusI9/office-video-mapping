@@ -18,8 +18,6 @@ let launched = false;
 //picture modificatin
 const sharp = require('sharp');
 
-console.log('server');
-
 const FORM_MAP = {
   tagline:{
     tagline_value: 'value',
@@ -44,9 +42,6 @@ app.use(express.urlencoded({extended: true}));
 //---------------
 console.log('starting server...')
 app.use(express.static(path.join(__dirname,'/public')));
-/*app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/public/index.html');
-});*/
 app.listen(port);
 
 
@@ -78,8 +73,39 @@ switch(process.platform){
     break;
 }
 
+function rescaleLogo(req, res){
+  console.log('\n2.Request Files:\n');
+  if (!req.file) {
+      console.log("No file received");
+    } else {
+      console.log('file received');
+      if(req.file?.fieldname === 'client'){
+        //resize picture
+        const {width, height} = configFile.client;
+        const { path } = req.file;
+        console.log('Resizing logo...')
+        sharp(path)
+          .resize(parseInt(width), parseInt(height), { fit: 'contain', background:{r:0, g:0, b:0, alpha:0} })
+          .png()
+          .toBuffer()
+          .then( bf => {
+            console.log(`Rescaled logo saved to: ${path}`);
+            return sharp(bf).toFile(path); 
+          })
+          .catch( er => console.log(er));
+      }
+  
+    }
+}
+
 
 function onUpdate(req, res){
+
+  console.log('\n\n\n_____________________________________');
+  console.log('_______________UPDATES_______________');
+  console.log('_____________________________________');
+  
+  console.log('\n1.Request Body:\n');
 
   Object.keys(req.body).map( item => {
       
@@ -105,26 +131,8 @@ function onUpdate(req, res){
       console.log('\n\n');
     });
     
+  rescaleLogo(req, res);
 
-  //handle picture
-  console.log('\n2.Request Files:\n');
-  if (!req.file) {
-      console.log("No file received");
-      res.send({ file: false });
-    } else {
-      console.log('file received');
-      res.send({file: true });
-      if(req.file?.fieldname === 'client'){
-        //resize picture
-        const {width, height} = configFile.client;
-        const { path } = req.file;
-        sharp(path)
-          .resize(parseInt(width), parseInt(height), { fit: 'contain', background:{r:0, g:0, b:0, alpha:0} })
-          .toBuffer()
-          .then( bf => sharp(bf).toFile(path) );
-      }
-  
-    }
 }
 
 function onLaunch(req, res){
@@ -145,6 +153,8 @@ function onLaunch(req, res){
 
   setTimeout( () => exec('taskkill /f /im chrome.exe'), 9000);
 
+  rescaleLogo(req, res);
+
   return res.send({success: true});
 
 }
@@ -152,12 +162,9 @@ function onLaunch(req, res){
 
 app.post('/', upload.single('client'),function(req, res){
 
-    console.log('\n\n\n_____________________________________');
-    console.log('_______________UPDATES_______________');
-    console.log('_____________________________________');
-    
-    console.log('\n1.Request Body:\n');
+
     const { action } = req.body;
+    
 
     switch(action){
 
