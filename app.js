@@ -17,6 +17,7 @@ let launched = false;
 //picture modificatin
 const sharp = require('sharp');
 
+console.log('server');
 
 const FORM_MAP = {
   tagline:{
@@ -133,7 +134,7 @@ function onLaunch(req, res){
   let setup = "\""+(__dirname + configFile.applications.setup)+"\"";
   console.log(setup);
   if(process.platform === 'win32'){ //reverse slash for windows
-    setup = setup.substring(2);
+    //setup = setup.substring(2);
     setup = setup.replaceAll('/','\\');
   }
 
