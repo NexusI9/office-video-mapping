@@ -1,6 +1,7 @@
 //os
 const {exec} = require('child_process');
 const fs = require('fs');
+const path = require('path');
 
 //server
 const express = require('express');
@@ -10,7 +11,7 @@ const port = 8000;
 
 //path and URL
 const clientUrl = `http://localhost:${port}`;
-const CONFIG_PATH = __dirname + '/src/config.json';
+const CONFIG_PATH = path.join(__dirname,'/src/config.json');
 const configFile = require(CONFIG_PATH);
 let launched = false;
 
@@ -42,7 +43,7 @@ app.use(express.urlencoded({extended: true}));
 
 //---------------
 console.log('starting server...')
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname,'/public')));
 /*app.get('/', function(req, res) {
   res.sendFile(__dirname + '/public/index.html');
 });*/
@@ -51,7 +52,7 @@ app.listen(port);
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-      cb(null, __dirname + '/src/assets/' );
+      cb(null, path.join(__dirname,'/src/assets/') );
     },
     filename: function (req, file, cb) {
       const extension = file.originalname.split('.')[1];
@@ -131,7 +132,7 @@ function onLaunch(req, res){
   if(launched){ return res.send({success: false}); }
   launched = true;
 
-  let setup = "\""+(__dirname + configFile.applications.setup)+"\"";
+  let setup = "\""+(path.join(__dirname,configFile.applications.setup))+"\"";
   console.log(setup);
   if(process.platform === 'win32'){ //reverse slash for windows
     //setup = setup.substring(2);
