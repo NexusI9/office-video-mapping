@@ -129,6 +129,11 @@ def onStartQueue():
     global transit, firstChannel, secondChannel, loopInChannel
 
     resetStats()
+    
+    #pause soundtrack
+    op('soundtrack').par.play = False;
+    op('soundtrack').par.reset.pulse();
+
 
     firstChannel.par.file = table[0,0]
     if( table[1,0]):
@@ -162,9 +167,10 @@ def setSoundtrack():
     #add soundtrack file to op
     _soundtrack =  op('soundtrack')
     _soundtrack.par.file = CONFIG['soundtrack']['path']
-    _soundtrack.par.volume = CONFIG['soundtrack']['volume']
+    transit.setTransition('volume',0)
     _soundtrack.par.play = False
-    return
+    #_soundtrack.par.reset.pulse()
+    
 
 def onStart():
 

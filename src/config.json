@@ -17,7 +17,7 @@
   },
   "soundtrack":{
     "path":"./assets/soundtrack.mp3",
-    "volume":0.2,
+    "volume":"0.3",
     "video":"intro.mp4"
   },
   "videos": {

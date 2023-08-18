@@ -32,6 +32,8 @@ soundtrack = {
 table = op('queue')
 info = op('info')
 
+currentVideo = ""
+
 def checkInterval(object, time):
 
 
@@ -57,8 +59,6 @@ def onOffToOn(channel, sampleIndex, val, prev):
 
 def whileOn(channel, sampleIndex, val, prev):
 
-	currentVideo = str(table[ info.par.value0, 0 ])
-
 	#setup tagline transition
 	if( tagline['video'] in currentVideo ):
 		checkInterval(tagline, val)
@@ -73,22 +73,26 @@ def whileOn(channel, sampleIndex, val, prev):
 	else:
 		transit.setTransition('client',0)
 
-	print(soundtrack['video'])
-	print(currentVideo)
+	return
+
+def onOnToOff(channel, sampleIndex, val, prev):
+
+	global currentVideo
+	currentVideo = str(table[ info.par.value0, 0 ])
+	
+	print('update config')
+	global config;
+	config = mod('lib_config').getInfo()
+
 	#setup soundtrack transition
 	if( soundtrack['video'] in currentVideo):
+		op('soundtrack').par.play = True
 		transit.setTransition('volume', config['soundtrack']['volume'])
 
 	#switch off soundtrack on loop_out
 	if(config['videos']['loop_out'] == currentVideo):
+		print('end')
 		transit.setTransition('volume', 0)
-
-	return
-
-def onOnToOff(channel, sampleIndex, val, prev):
-	print('update config')
-	global config;
-	config = mod('lib_config').getInfo()
 	
 	return
 
