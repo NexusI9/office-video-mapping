@@ -23,6 +23,12 @@ tagline = {
 	"transition": "tagline"
 }
 
+
+soundtrack = {
+	"video":config['soundtrack']['video'],
+	"transition":"volume"
+}
+
 table = op('queue')
 info = op('info')
 
@@ -53,17 +59,29 @@ def whileOn(channel, sampleIndex, val, prev):
 
 	currentVideo = str(table[ info.par.value0, 0 ])
 
+	#setup tagline transition
 	if( tagline['video'] in currentVideo ):
 		checkInterval(tagline, val)
 	else:
 		transit.setTransition('tagline',0)
-			
+
+	#setup client logo transition	
 	if( client['video'] in currentVideo):
 		checkInterval(client, val)
 	elif( info.par.value0 == table.numRows-1 ):
 		transit.setTransition('client',1)
 	else:
 		transit.setTransition('client',0)
+
+	print(soundtrack['video'])
+	print(currentVideo)
+	#setup soundtrack transition
+	if( soundtrack['video'] in currentVideo):
+		transit.setTransition('volume', config['soundtrack']['volume'])
+
+	#switch off soundtrack on loop_out
+	if(config['videos']['loop_out'] == currentVideo):
+		transit.setTransition('volume', 0)
 
 	return
 

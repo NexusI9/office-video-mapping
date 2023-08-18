@@ -13,7 +13,7 @@ import os
 import pathlib
 
 #data
-json_dict = None
+CONFIG = None
 table = op('queue')
 config = mod('lib_config')
 info = op('info')
@@ -33,10 +33,12 @@ client = op('client')
 
 
 def getConfigInfo():
-    global json_dict;
-    json_dict = config.getInfo()
+    #store config data in CONFIG
+    global CONFIG;
+    CONFIG = config.getInfo()
 
 def setLoopIn(): 
+    #Initialize the fire loop (reveal)
     global loopInChannel,parent
     print(parent)
     print('Initialize: set loop_in')
@@ -49,11 +51,12 @@ def setLoopIn():
     transit.setTransition('intro', 0)
 
     #set loop_intro before Start
-    loopInChannel.par.file = json_dict['videos']['loop_in']
+    loopInChannel.par.file = CONFIG['videos']['loop_in']
     loopInChannel.par.play = True
     loopInChannel.par.reload.pulse()
 
 def muteAudio():
+    #mute audio on key press
     op('audiodevout1').par.active = not op('audiodevout1').par.active
 
 def setQueue():
@@ -80,26 +83,26 @@ def get_length(filename):
 
 def setDynamicItems():
 
-    global tagline, json_dict, client
+    global tagline, CONFIG, client
     
-    tagline.par.text = json_dict['tagline']['value'].replace('\\\\', '\\')
-    tagline.par.fontsizex = json_dict['tagline']['fontsize']
+    tagline.par.text = CONFIG['tagline']['value'].replace('\\\\', '\\')
+    tagline.par.fontsizex = CONFIG['tagline']['fontsize']
 
-    client.par.file = json_dict['client']['image']
-    op('transform_client').par.sx = json_dict['client']['size']
+    client.par.file = CONFIG['client']['image']
+    op('transform_client').par.sx = CONFIG['client']['size']
 
     return
 
 def fetchQueue():
 
-    global json_dict, table
+    global CONFIG, table
     
     #reset table
     table.setSize(0,1)
 
     #append values to table
-    loop_outro = json_dict['videos']['loop_out']
-    queue = json_dict['videos']['queue']
+    loop_outro = CONFIG['videos']['loop_out']
+    queue = CONFIG['videos']['queue']
   
     for i in range(len(queue)):
         currentvid = queue[i]
@@ -150,9 +153,18 @@ def onStartQueue():
     return
 
 def syncParentDimension():
-    global json_dict
-    parent.par.w = json_dict['dimension']['width'];
-    parent.par.h = json_dict['dimension']['height'];
+    global CONFIG
+    parent.par.w = CONFIG['dimension']['width'];
+    parent.par.h = CONFIG['dimension']['height'];
+
+def setSoundtrack():
+    global CONFIG
+    #add soundtrack file to op
+    _soundtrack =  op('soundtrack')
+    _soundtrack.par.file = CONFIG['soundtrack']['path']
+    _soundtrack.par.volume = CONFIG['soundtrack']['volume']
+    _soundtrack.par.play = False
+    return
 
 def onStart():
 
@@ -166,6 +178,7 @@ def onStart():
     resetStats()
     fetchQueue()
     setQueue()
+    setSoundtrack()
 
     return
 

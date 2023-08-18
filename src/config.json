@@ -15,6 +15,11 @@
     "width": "800",
     "height": "800"
   },
+  "soundtrack":{
+    "path":"./assets/soundtrack.mp3",
+    "volume":0.2,
+    "video":"intro.mp4"
+  },
   "videos": {
     "loop_out": "./assets/videos/loop_out.mp4",
     "loop_in": "./assets/videos/reveal.mp4",
@@ -25,7 +30,6 @@
       "./assets/videos/outro.mp4"
     ]
   },
-  "soundtrack":"./assets/soundtrack/main.mp3",
   "applications": {
     "madmapper": "redbox_mapping_2023.mad",
     "touchdesigner": "redbox_mapping_td.toe",
@@ -33,7 +37,7 @@
   },
   "dimension": {
     "width": "2500",
-    "height": "1084"
+    "height": "1085"
   },
   "commands": {
     "R": "Revient à la loop d'introduction et mettre a jour les assets (reset)",
