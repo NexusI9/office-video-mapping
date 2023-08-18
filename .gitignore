@@ -2,3 +2,7 @@ node_modules
 src/video
 public/assets
 src/assets
+
+*.logicx
+*.mp3
+*.mp4

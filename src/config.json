@@ -16,15 +16,16 @@
     "height": "800"
   },
   "videos": {
-    "loop_out": "./video/loop_out.mp4",
-    "loop_in": "./video/reveal.mp4",
+    "loop_out": "./assets/videos/loop_out.mp4",
+    "loop_in": "./assets/videos/reveal.mp4",
     "queue": [
-      "./video/reveal.mp4",
-      "./video/intro.mp4",
-      "./video/casestudy.mp4",
-      "./video/outro.mp4"
+      "./assets/videos/reveal.mp4",
+      "./assets/videos/intro.mp4",
+      "./assets/videos/casestudy.mp4",
+      "./assets/videos/outro.mp4"
     ]
   },
+  "soundtrack":"./assets/soundtrack/main.mp3",
   "applications": {
     "madmapper": "redbox_mapping_2023.mad",
     "touchdesigner": "redbox_mapping_td.toe",
