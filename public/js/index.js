@@ -1,6 +1,7 @@
 
 function __main__(){
     
+    //replace form values with config values
     fetch('/getConfig',{ method:'POST' })
         .then( resp => resp.json() )
         .then( data => {
@@ -15,7 +16,9 @@ function __main__(){
                 });
             });
         } );
+    
 
+    //on submit post values to servers to update config.json
     document.querySelectorAll('form').forEach( item => {
         
         item.addEventListener("submit", function (e) {
@@ -42,6 +45,13 @@ function __main__(){
 
 
         });
+    });
+
+    //get local IP to display 
+    fetch('/getIP', { method:'POST' })
+    .then( e => e.json() )
+    .then( ({ip}) => {
+        document.getElementById('ip').innerHTML = `URL mobile: <b>${ip}:8000</b>`;
     });
 
 }

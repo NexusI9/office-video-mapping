@@ -46,9 +46,9 @@ h5 {
 nav {
   margin-top: 30px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100vw;
   box-sizing: border-box;
@@ -68,7 +68,7 @@ nav #logo_section img {
 #container {
   margin: auto;
   width: 1280px;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -106,9 +106,10 @@ hr {
 .card {
   display: block;
   padding: 18px;
-  border: solid 1px var(--white);
   border-radius: 4px;
   box-sizing: border-box;
+  border: solid 1px #474747;
+  background: rgba(149, 149, 149, 0.0705882353);
 }
 .card input {
   border: none;
@@ -208,4 +209,32 @@ hr {
 }
 .cta.primaire {
   background-color: var(--red);
+}
+
+@media only screen and (max-width: 600px) {
+  nav {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+  }
+  nav #ip {
+    font-size: 24px;
+  }
+  #container {
+    flex-direction: column;
+    width: 100%;
+  }
+  #container form#updateform {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+  }
+  #container form#updateform fieldset.submit-field {
+    flex-direction: column;
+    gap: 20px;
+  }
+  #container form#updateform fieldset.submit-field .cta {
+    width: 100%;
+  }
 }/*# sourceMappingURL=sheet.css.map */
