@@ -8,3 +8,6 @@ src/assets
 *.mp4
 
 _ignore
+
+*.mad
+*.toe
