@@ -6,3 +6,5 @@ src/assets
 *.logicx
 *.mp3
 *.mp4
+
+_ignore

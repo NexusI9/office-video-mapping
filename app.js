@@ -11,6 +11,32 @@ const port = 8000;
 
 //ip
 const { networkInterfaces } = require('os');
+function getIP() {
+  const nets = networkInterfaces();
+  let results='';
+
+  for (const name of Object.keys(nets)) {
+    for (const net of nets[name]) {
+      // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
+      // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
+      const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4
+      if (net.family === familyV4Value && !net.internal) {
+        if (!results[name]) {
+          results[name] = [];
+        }
+        results[name].push(net.address);
+      }
+    }
+  }
+
+  try {
+    results = results['Wi-Fi'][0];
+  } catch (_) {
+    results = 'ip_not_found';
+  }
+
+  return results;
+}
 
 //path and URL
 const clientUrl = `http://localhost:${port}`;
@@ -38,12 +64,11 @@ const FORM_MAP = {
 }
 
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //---------------
-console.log('starting server...')
+console.log('Starting server...')
 app.use(express.static(path.join(__dirname, '/public')));
 app.listen(port);
 
@@ -62,7 +87,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
-console.log(`Server available on: ${clientUrl}`);
+console.log(`Server now available on: ${clientUrl}`);
+console.log(`On local network: ${getIP()}`);
 
 //start client
 switch (process.platform) {
@@ -194,29 +220,4 @@ app.post('/getConfig', (req, res) => {
   res.send(JSON.stringify(configFile));
 });
 
-app.post('/getIP', (req, res) => {
-  const nets = networkInterfaces();
-  let results = {}; 
-
-  for (const name of Object.keys(nets)) {
-    for (const net of nets[name]) {
-      // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
-      // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
-      const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4
-      if (net.family === familyV4Value && !net.internal) {
-        if (!results[name]) {
-          results[name] = [];
-        }
-        results[name].push(net.address);
-      }
-    }
-  }
-
-  try{
-    results = results['Wi-Fi'][0];
-  }catch(_){
-    results =  'ip_not_found'; 
-  }
-
-  res.send({ip:results});
-});
+app.post('/getIP', (req, res) => res.send({ ip: getIP() }));
